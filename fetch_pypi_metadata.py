@@ -41,6 +41,14 @@ if __name__ == '__main__':
         os.makedirs(METADATA_DIR)
     packages_to_fetch = set(get_package_list()) - set(get_fetched_packages())
     print "%d packages to fetch" % len(packages_to_fetch)
+    count = 0
     for package in packages_to_fetch:
         print package
         fetch_package(package)
+        count += 1
+        # Edit out this chunk to fetch all packages:
+        if count >= 10:
+            print "Stopping after 10 to avoid sending too much traffic to PyPI!"
+            print "Suggest you download http://s3.amazonaws.com/files.simonwillison.net/2016/pypi-metadata/metadata.zip instead"
+            break
+        # End of edit-out-this-chink
