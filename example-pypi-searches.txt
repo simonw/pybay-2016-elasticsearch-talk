@@ -1,0 +1,153 @@
+# These are best executed using Sense 
+
+GET package/_search
+
+
+GET package/_search
+{
+  "query": {
+    "match": {
+      "description": "django"
+    }
+  }
+}
+
+GET package/_search
+{
+  "query": {
+    "match_all": {}
+  },
+  "aggs": {
+    "classifiers": {
+      "terms": {
+        "field": "classifiers"
+      }
+    }
+  }
+}
+
+
+GET package/_search
+{
+  "query": {
+    "more_like_this": {
+      "fields": [
+        "description",
+        "summary"
+      ],
+      "like": [
+        {
+          "_index": "package",
+          "_type": "package",
+          "_id": "simplejson"
+        }
+      ],
+      "min_term_freq": 1,
+      "max_query_terms": 12
+    }
+  },
+  "aggs": {
+    "classifiers": {
+      "terms": {
+        "field": "classifiers"
+      }
+    }
+  }
+}
+
+GET release/_search
+{
+  "query": {
+    "match_all": {}
+  },
+  "aggs": {
+    "classifiers": {
+      "terms": {
+        "field": "package_name",
+        "size": 100
+      }
+    }
+  }
+}
+
+
+GET release/_search
+{
+  "query": {
+    "match_all": {}
+  },
+  "size": 0,
+  "aggs": {
+    "classifiers": {
+      "terms": {
+        "field": "package_name",
+        "size": 100
+      }
+    }
+  }
+}
+
+
+GET release/_search
+{
+  "query": {
+    "match_all": {}
+  },
+  "aggs": {
+    "classifiers": {
+      "terms": {
+        "field": "package_name",
+        "size": 100
+      },
+      "aggs": {
+        "total_downloads": 
+           { "sum" : { "field" : "downloads" } 
+        }
+      }
+    }
+  }
+}
+
+
+GET release/_search
+{
+  "query": {
+    "match_all": {}
+  },
+  "size": 0,
+  "aggs": {
+    "classifiers": {
+      "terms": {
+        "field": "package_name",
+        "size": 100
+      },
+      "aggs": {
+        "total_downloads": 
+           { "sum" : { "field" : "downloads" } 
+        }
+      }
+    }
+  }
+}
+
+GET release/_search
+{
+  "query": {
+    "match_all": {}
+  },
+  "size": 0,
+  "aggs": {
+    "classifiers": {
+      "terms": {
+        "field": "package_name",
+        "size": 100,
+        "order": {"total_downloads": "desc"}
+      },
+      "aggs": {
+        "total_downloads": 
+           { "sum" : { "field" : "downloads" } 
+        }
+      }
+    }
+  }
+}
